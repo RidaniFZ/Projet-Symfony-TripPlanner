@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+ 
+
+  <!-- Icons Grid -->
+  <section class="features-icons bg-light text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+            <div class="features-icons-icon d-flex">
+              <a href="{{ path ('about') }}"  style=" text-decoration: none; margin:auto;"> <i class="icon-screen-desktop m-auto text-primary"></i> </a>
+            </div>
+            <h3>About Us</h3>
+            <p class="lead mb-0"> Explore cultures, landscapes, wildlife and communities from Asia to Africa, the Arctic to the Americas.!</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+            <div class="features-icons-icon d-flex">
+              <!-- <i class="icon-layers m-auto text-primary"></i> -->
+              <a href="{{ path ('contact') }}" style=" text-decoration: none; margin:auto; "><i class="far fa-paper-plane m-auto" ></i></a>
+            </div>
+            <h3>Contact us</h3>
+            <p class="lead mb-0"> Our travel experts have visited many of our exciting destinations and are only too happy to discuss your holiday needs.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+            <div class="features-icons-icon d-flex">
+              <a href="{{ path ('termOfUse') }}"  style="text-decoration: none; margin:auto;"><i class="icon-check m-auto text-primary"></i></a>
+            </div>
+            <h3> Term of Use </h3>
+            <p class="lead mb-0">Please ensure you read the Booking Conditions and Essential Information carefully!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Image Showcases -->
+  <section class="showcase">
+    <div class="container-fluid p-0">
+      <div class="row no-gutters">
+
+        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/img/travel-world-1.jpg');"></div>
+        <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+          <h2> Houseboat cruise along Thailand </h2>
+          <p class="lead mb-0">You can find all over Thailand is wonderfully scenic. Most prominent are hundreds of tropical beaches with modern facilities. Offshore of the Gulf of Thailand are the precious gems gifted by Mother Nature such as Koh Tao, Koh Phi Phi or Koh Samui.</p>
+        </div>
+      </div>
+      <div class="row no-gutters">
+        <div class="col-lg-6 text-white showcase-img" style="background-image: url('assets/img/groupeVoyage.jpg');"></div>
+        <div class="col-lg-6 my-auto showcase-text">
+          <h2> Do it in Groupes</h2>
+          <p class="lead mb-0"> Meet like-minded people and get to the heart of a destination.  All sorts of people can travel on a trip; groups are usually a mix of solos, couples and friends. What unites everyone is an adventurous spirit, sense of fun and a desire for real travel experiences.</p>
+        </div>
+      </div>
+      <div class="row no-gutters">
+        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/img/AfricaGipard.jpg');"></div>
+        <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+          <h2> Explore Kenya’s wildlife </h2>
+          <p class="lead mb-0"> The experience is extra ordinarily unforgettable. For lovers of conservation, you can also experience some of the most endangered wildlife species with the help of professionally trained guides. Lastly, tourists are also given a chance to visit local community projects that the conservancy is involved in. Serves as a unique chance to interact with local community cultures and perhaps make friends.</p>
+        </div>
+      </div>
+
+       <div class="row no-gutters">
+        <div class="col-lg-6 text-white showcase-img" style="background-image: url('assets/img/sejour-randonnee.jpg');"></div>
+        <div class="col-lg-6 my-auto showcase-text">
+          <h2> Hiking In Finland </h2>
+          <p class="lead mb-0">Hiking and trekking are part of Finland's national identity. The many national parks, unspoilt nature, fresh air and clear waters provide the ideal backdrop for short trips or expeditions lasting several days. Hikers will find beautiful trails in the typical fjell landscape of Lapland, in the charismatic lake district and along the impressive coastline with its large archipelago.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials text-center bg-light">
+    <div class="container">
+      <h2 class="mb-5">What people are saying...</h2>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+            <img class="img-fluid rounded-circle mb-3" src="assets/img/testimonials-1.jpg" alt="">
+            <h5>Margaret E.</h5>
+            <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+            <img class="img-fluid rounded-circle mb-3" src="assets/img/testimonials-2.jpg" alt="">
+            <h5>Fred S.</h5>
+            <p class="font-weight-light mb-0">"Trip Planner is amazing. I've been using it to create nice adventurous groupe."</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+            <img class="img-fluid rounded-circle mb-3" src="assets/img/testimonials-3.jpg" alt="">
+            <h5>Sarah W.</h5>
+            <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to us!"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <!--  style="background-image: url('assets/img/artisana.jpg'); -->
+  <section class="call-to-action text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h2 class="mb-4">Ready to get started? Sign up now!</h2>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form>
+            <div class="form-row">
+              <div class="col-12 col-md-9 mb-2 mb-md-0">
+                <input type="email" class="form-control form-control-lg" placeholder="Enter your email...">
+              </div>
+              <div class="col-12 col-md-3">
+                <button type="submit" class="btn btn-block btn-lg btn-primary">Sign up!</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
