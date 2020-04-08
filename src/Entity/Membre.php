@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,16 @@ class Membre
      * @ORM\Column(type="string", length=255)
      */
     private $MotDePass;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Groupe", inversedBy="membresGroupe")
+     */
+    private $groupeAppartenance;
+
+    public function __construct()
+    {
+        $this->groupeAppartenance = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +131,32 @@ class Membre
     public function setMotDePass(string $MotDePass): self
     {
         $this->MotDePass = $MotDePass;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Groupe[]
+     */
+    public function getGroupeAppartenance(): Collection
+    {
+        return $this->groupeAppartenance;
+    }
+
+    public function addGroupeAppartenance(Groupe $groupeAppartenance): self
+    {
+        if (!$this->groupeAppartenance->contains($groupeAppartenance)) {
+            $this->groupeAppartenance[] = $groupeAppartenance;
+        }
+
+        return $this;
+    }
+
+    public function removeGroupeAppartenance(Groupe $groupeAppartenance): self
+    {
+        if ($this->groupeAppartenance->contains($groupeAppartenance)) {
+            $this->groupeAppartenance->removeElement($groupeAppartenance);
+        }
 
         return $this;
     }

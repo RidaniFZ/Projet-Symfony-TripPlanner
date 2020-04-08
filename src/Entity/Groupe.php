@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +27,16 @@ class Groupe
      * @ORM\Column(type="string", length=500)
      */
     private $Description;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Membre", mappedBy="groupeAppartenance")
+     */
+    private $membresGroupe;
+
+    public function __construct()
+    {
+        $this->membresGroupe = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,6 +63,34 @@ class Groupe
     public function setDescription(string $Description): self
     {
         $this->Description = $Description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Membre[]
+     */
+    public function getMembresGroupe(): Collection
+    {
+        return $this->membresGroupe;
+    }
+
+    public function addMembresGroupe(Membre $membresGroupe): self
+    {
+        if (!$this->membresGroupe->contains($membresGroupe)) {
+            $this->membresGroupe[] = $membresGroupe;
+            $membresGroupe->addGroupeAppartenance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMembresGroupe(Membre $membresGroupe): self
+    {
+        if ($this->membresGroupe->contains($membresGroupe)) {
+            $this->membresGroupe->removeElement($membresGroupe);
+            $membresGroupe->removeGroupeAppartenance($this);
+        }
 
         return $this;
     }
