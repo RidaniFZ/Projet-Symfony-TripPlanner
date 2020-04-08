@@ -39,6 +39,11 @@ class Groupe
      */
     private $adminGroupe;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Trip", mappedBy="tripGroupe", cascade={"persist", "remove"})
+     */
+    private $groupeTrip;
+
     public function __construct()
     {
         $this->membresGroupe = new ArrayCollection();
@@ -109,6 +114,23 @@ class Groupe
     public function setAdminGroupe(?Membre $adminGroupe): self
     {
         $this->adminGroupe = $adminGroupe;
+
+        return $this;
+    }
+
+    public function getGroupeTrip(): ?Trip
+    {
+        return $this->groupeTrip;
+    }
+
+    public function setGroupeTrip(Trip $groupeTrip): self
+    {
+        $this->groupeTrip = $groupeTrip;
+
+        // set the owning side of the relation if necessary
+        if ($groupeTrip->getTripGroupe() !== $this) {
+            $groupeTrip->setTripGroupe($this);
+        }
 
         return $this;
     }

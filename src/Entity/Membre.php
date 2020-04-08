@@ -58,10 +58,16 @@ class Membre
      */
     private $groupesGerer;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Trip", mappedBy="TripAdmin")
+     */
+    private $Trips;
+
     public function __construct()
     {
         $this->groupeAppartenance = new ArrayCollection();
         $this->groupesGerer = new ArrayCollection();
+        $this->Trips = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,6 +198,37 @@ class Membre
             // set the owning side to null (unless already changed)
             if ($groupesGerer->getAdminGroupe() === $this) {
                 $groupesGerer->setAdminGroupe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Trip[]
+     */
+    public function getTrips(): Collection
+    {
+        return $this->Trips;
+    }
+
+    public function addTrip(Trip $trip): self
+    {
+        if (!$this->Trips->contains($trip)) {
+            $this->Trips[] = $trip;
+            $trip->setTripAdmin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrip(Trip $trip): self
+    {
+        if ($this->Trips->contains($trip)) {
+            $this->Trips->removeElement($trip);
+            // set the owning side to null (unless already changed)
+            if ($trip->getTripAdmin() === $this) {
+                $trip->setTripAdmin(null);
             }
         }
 

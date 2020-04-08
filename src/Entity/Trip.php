@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,34 @@ class Trip
      * @ORM\Column(type="datetime")
      */
     private $dateFin;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Groupe", inversedBy="groupeTrip", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tripGroupe;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Hebergement", inversedBy="Trips")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tripHebergement;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Activit", inversedBy="Trips")
+     */
+    private $TripActivities;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Membre", inversedBy="Trips")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $TripAdmin;
+
+    public function __construct()
+    {
+        $this->TripActivities = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,6 +98,68 @@ class Trip
     public function setDateFin(\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    public function getTripGroupe(): ?Groupe
+    {
+        return $this->tripGroupe;
+    }
+
+    public function setTripGroupe(Groupe $tripGroupe): self
+    {
+        $this->tripGroupe = $tripGroupe;
+
+        return $this;
+    }
+
+    public function getTripHebergement(): ?Hebergement
+    {
+        return $this->tripHebergement;
+    }
+
+    public function setTripHebergement(?Hebergement $tripHebergement): self
+    {
+        $this->tripHebergement = $tripHebergement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Activit[]
+     */
+    public function getTripActivities(): Collection
+    {
+        return $this->TripActivities;
+    }
+
+    public function addTripActivity(Activit $tripActivity): self
+    {
+        if (!$this->TripActivities->contains($tripActivity)) {
+            $this->TripActivities[] = $tripActivity;
+        }
+
+        return $this;
+    }
+
+    public function removeTripActivity(Activit $tripActivity): self
+    {
+        if ($this->TripActivities->contains($tripActivity)) {
+            $this->TripActivities->removeElement($tripActivity);
+        }
+
+        return $this;
+    }
+
+    public function getTripAdmin(): ?Membre
+    {
+        return $this->TripAdmin;
+    }
+
+    public function setTripAdmin(?Membre $TripAdmin): self
+    {
+        $this->TripAdmin = $TripAdmin;
 
         return $this;
     }
