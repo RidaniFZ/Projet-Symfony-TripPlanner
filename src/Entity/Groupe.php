@@ -33,6 +33,12 @@ class Groupe
      */
     private $membresGroupe;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Membre", inversedBy="groupesGerer")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $adminGroupe;
+
     public function __construct()
     {
         $this->membresGroupe = new ArrayCollection();
@@ -91,6 +97,18 @@ class Groupe
             $this->membresGroupe->removeElement($membresGroupe);
             $membresGroupe->removeGroupeAppartenance($this);
         }
+
+        return $this;
+    }
+
+    public function getAdminGroupe(): ?Membre
+    {
+        return $this->adminGroupe;
+    }
+
+    public function setAdminGroupe(?Membre $adminGroupe): self
+    {
+        $this->adminGroupe = $adminGroupe;
 
         return $this;
     }

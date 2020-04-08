@@ -53,9 +53,15 @@ class Membre
      */
     private $groupeAppartenance;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Groupe", mappedBy="adminGroupe")
+     */
+    private $groupesGerer;
+
     public function __construct()
     {
         $this->groupeAppartenance = new ArrayCollection();
+        $this->groupesGerer = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -156,6 +162,37 @@ class Membre
     {
         if ($this->groupeAppartenance->contains($groupeAppartenance)) {
             $this->groupeAppartenance->removeElement($groupeAppartenance);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Groupe[]
+     */
+    public function getGroupesGerer(): Collection
+    {
+        return $this->groupesGerer;
+    }
+
+    public function addGroupesGerer(Groupe $groupesGerer): self
+    {
+        if (!$this->groupesGerer->contains($groupesGerer)) {
+            $this->groupesGerer[] = $groupesGerer;
+            $groupesGerer->setAdminGroupe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupesGerer(Groupe $groupesGerer): self
+    {
+        if ($this->groupesGerer->contains($groupesGerer)) {
+            $this->groupesGerer->removeElement($groupesGerer);
+            // set the owning side to null (unless already changed)
+            if ($groupesGerer->getAdminGroupe() === $this) {
+                $groupesGerer->setAdminGroupe(null);
+            }
         }
 
         return $this;
