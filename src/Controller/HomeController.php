@@ -83,7 +83,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/sign/in" , name="signIn")
      */
-    public function signIn()
+   /*  public function signIn()
     
     {
         $formSignIn = $this->createForm(
@@ -100,10 +100,10 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/sign/in/traitement" , name="signInTraitement")
-     */
+    
     public function SignInTraitement()
     {
          
         return $this->render('home/sign_in_traitement.html.twig');
-    }
+    } */
 }
