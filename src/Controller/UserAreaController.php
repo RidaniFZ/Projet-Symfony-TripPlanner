@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserFormType;
 use App\Form\RegistrationFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,37 +38,38 @@ class UserAreaController extends AbstractController
      * @Route("/user/area/edit/profile", name="edit_profile")
      */
     public function editProfile(Request $req, UserPasswordEncoderInterface $passwordEncoder)
-    {   $userUpdated = new User();
-        $currentUser = $this->getUser();
+    {   $userUpdated = $this->getUser();
+        $userUpdated->setImage(null);
+        //dd($userUpdated);
+       // $currentUser = $this->getUser();
         // créer le formulaire        
-        $formProfile = $this->createForm(
-            RegistrationFormType::class,
+        $formEditProfile = $this->createForm(
+            UserFormType::class,
             $userUpdated,
             [
                 'method' => 'POST',
                 'action' => $this->generateUrl("edit_profile")
 
-            ]
+            ] 
         );
-
-        $formProfile->handleRequest($req);
-      
-         if ($formProfile->isSubmitted() && $formProfile->isValid())
+       
+        $formEditProfile->handleRequest($req);
+         //dd($formEditProfile->getData());
+         if ($formEditProfile->isSubmitted() && $formEditProfile->isValid())
         { 
-
+            
            $em = $this->getDoctrine()->getManager();
            $rep = $em->getRepository(User::class);
-           $userToUpdate= $rep->find($currentUser->getId());
-           dd($userUpdated);
-           $userToUpdate->setPrenom($userUpdated->getPrenom());
+          // $userToUpdate= $rep->find($this->getUser()->getId());
+          /*  $userToUpdate->setPrenom($userUpdated->getPrenom());
            $userToUpdate->setNom($userUpdated->getNom());
            $userToUpdate->setPays($userUpdated->getPays());
            $userToUpdate->setAdress($userUpdated->getAdress());
-           $userToUpdate->setEmail($userUpdated->getEmail());
-           $userToUpdate->setPassword(
+           $userToUpdate->setEmail($userUpdated->getEmail()); */
+           $userUpdated->setPassword(
             $passwordEncoder->encodePassword(
                 $userUpdated,
-                $formProfile->get('plainPassword')->getData()
+                $formEditProfile->get('password')->getData()
             )
         );
         $fichier = $userUpdated->getImage();
@@ -76,16 +78,16 @@ class UserAreaController extends AbstractController
 
             $fichier->move("dossierFichiers", $nomFichierServeur);
   
-            $userToUpdate->setImage($nomFichierServeur);
-
+            $userUpdated->setImage($nomFichierServeur);
+       // dd($userUpdated);
            $em->flush();
-           //dd($userToUpdate);
+           
            $vars = ['monprofil' => $userUpdated];
         return $this->render('user_area/index.html.twig', $vars);
         }
         return $this->render(
             '/user_area/afficher_formulaire_edit_profile.html.twig',
-            ['editProfileFormulaire' => $formProfile->createView()]
+            ['editProfileFormulaire' => $formEditProfile->createView()]
         );
     }
 }

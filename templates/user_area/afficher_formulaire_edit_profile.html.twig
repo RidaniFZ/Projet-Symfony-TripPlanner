@@ -2,8 +2,8 @@
 
 {% block NameAndPicture  %}
  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Fatimazahra</span>
-                <img class="img-profile rounded-circle" src="{{ asset('/dossierFichiers/')}}">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{monprofil.prenom}}</span>
+                <img class="img-profile rounded-circle" src="{{ asset('/dossierFichiers/' ~ monprofil.image)}}">
 </a>
 {% endblock %}
 
@@ -124,7 +124,7 @@ input {
         {{ form_row(editProfileFormulaire.pays) }}
         {{ form_row(editProfileFormulaire.image) }}
         {{ form_row(editProfileFormulaire.email) }}
-        {{ form_row(editProfileFormulaire.plainPassword) }}
+        {{ form_row(editProfileFormulaire.password) }}
       
 			
 			<button type="submit"> Edit </button> 
@@ -132,4 +132,5 @@ input {
 		
 	</div> 
 </div>
+
 {% endblock %}
