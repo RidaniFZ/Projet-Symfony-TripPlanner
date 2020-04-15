@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -59,6 +61,28 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $Image;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\groupe", inversedBy="userGroupe")
+     */
+    private $groupesAppartenance;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\groupe", mappedBy="AdminGroupe")
+     */
+    private $groupesGerer;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Trip", mappedBy="TripAdmin")
+     */
+    private $UserTrips;
+
+    public function __construct()
+    {
+        $this->groupesAppartenance = new ArrayCollection();
+        $this->groupesGerer = new ArrayCollection();
+        $this->UserTrips = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -197,4 +221,93 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|groupe[]
+     */
+    public function getGroupesAppartenance(): Collection
+    {
+        return $this->groupesAppartenance;
+    }
+
+    public function addGroupesAppartenance(groupe $groupesAppartenance): self
+    {
+        if (!$this->groupesAppartenance->contains($groupesAppartenance)) {
+            $this->groupesAppartenance[] = $groupesAppartenance;
+        }
+
+        return $this;
+    }
+
+    public function removeGroupesAppartenance(groupe $groupesAppartenance): self
+    {
+        if ($this->groupesAppartenance->contains($groupesAppartenance)) {
+            $this->groupesAppartenance->removeElement($groupesAppartenance);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|groupe[]
+     */
+    public function getGroupesGerer(): Collection
+    {
+        return $this->groupesGerer;
+    }
+
+    public function addGroupesGerer(groupe $groupesGerer): self
+    {
+        if (!$this->groupesGerer->contains($groupesGerer)) {
+            $this->groupesGerer[] = $groupesGerer;
+            $groupesGerer->setAdminGroupe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupesGerer(groupe $groupesGerer): self
+    {
+        if ($this->groupesGerer->contains($groupesGerer)) {
+            $this->groupesGerer->removeElement($groupesGerer);
+            // set the owning side to null (unless already changed)
+            if ($groupesGerer->getAdminGroupe() === $this) {
+                $groupesGerer->setAdminGroupe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Trip[]
+     */
+    public function getUserTrips(): Collection
+    {
+        return $this->UserTrips;
+    }
+
+    public function addUserTrip(Trip $userTrip): self
+    {
+        if (!$this->UserTrips->contains($userTrip)) {
+            $this->UserTrips[] = $userTrip;
+            $userTrip->setTripAdmin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserTrip(Trip $userTrip): self
+    {
+        if ($this->UserTrips->contains($userTrip)) {
+            $this->UserTrips->removeElement($userTrip);
+            // set the owning side to null (unless already changed)
+            if ($userTrip->getTripAdmin() === $this) {
+                $userTrip->setTripAdmin(null);
+            }
+        }
+
+        return $this;
+    }
+    
 }

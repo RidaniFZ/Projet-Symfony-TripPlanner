@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Groupe;
+use App\Entity\groupe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -12,11 +12,11 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Groupe[]    findAll()
  * @method Groupe[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GroupeRepository extends ServiceEntityRepository
+class groupeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Groupe::class);
+        parent::__construct($registry, groupe::class);
     }
 
     // /**

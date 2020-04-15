@@ -3,9 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\Membre;
-use App\Form\MembreType;
-use App\Form\SignInType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

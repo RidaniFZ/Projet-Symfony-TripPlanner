@@ -51,7 +51,7 @@ class Trip
     private $TripActivities;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Membre", inversedBy="Trips")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="UserTrips")
      * @ORM\JoinColumn(nullable=false)
      */
     private $TripAdmin;
@@ -152,12 +152,12 @@ class Trip
         return $this;
     }
 
-    public function getTripAdmin(): ?Membre
+    public function getTripAdmin(): ?User
     {
         return $this->TripAdmin;
     }
 
-    public function setTripAdmin(?Membre $TripAdmin): self
+    public function setTripAdmin(?User $TripAdmin): self
     {
         $this->TripAdmin = $TripAdmin;
 

@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\GroupeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\groupeRepository")
  */
-class Groupe
+class groupe
 {
     /**
      * @ORM\Id()
@@ -29,12 +29,12 @@ class Groupe
     private $Description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Membre", mappedBy="groupeAppartenance")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="groupesAppartenance")
      */
-    private $membresGroupe;
+    private $userGroupe;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Membre", inversedBy="groupesGerer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="groupesGerer")
      * @ORM\JoinColumn(nullable=false)
      */
     private $adminGroupe;
@@ -42,11 +42,11 @@ class Groupe
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Trip", mappedBy="tripGroupe", cascade={"persist", "remove"})
      */
-    private $groupeTrip;
+    //private $groupeTrip;
 
     public function __construct()
     {
-        $this->membresGroupe = new ArrayCollection();
+        $this->userGroupe = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,46 +79,45 @@ class Groupe
     }
 
     /**
-     * @return Collection|Membre[]
+     * @return Collection|User[]
      */
-    public function getMembresGroupe(): Collection
+    public function getUserGroupe(): Collection
     {
-        return $this->membresGroupe;
+        return $this->userGroupe;
     }
 
-    public function addMembresGroupe(Membre $membresGroupe): self
+    public function addUserGroupe(User $userGroupe): self
     {
-        if (!$this->membresGroupe->contains($membresGroupe)) {
-            $this->membresGroupe[] = $membresGroupe;
-            $membresGroupe->addGroupeAppartenance($this);
+        if (!$this->userGroupe->contains($userGroupe)) {
+            $this->userGroupe[] = $userGroupe;
+            $userGroupe->addGroupesAppartenance($this);
         }
 
         return $this;
     }
 
-    public function removeMembresGroupe(Membre $membresGroupe): self
+    public function removeUserGroupe(User $userGroupe): self
     {
-        if ($this->membresGroupe->contains($membresGroupe)) {
-            $this->membresGroupe->removeElement($membresGroupe);
-            $membresGroupe->removeGroupeAppartenance($this);
+        if ($this->userGroupe->contains($userGroupe)) {
+            $this->userGroupe->removeElement($userGroupe);
+            $userGroupe->removeGroupesAppartenance($this);
         }
 
         return $this;
     }
 
-    public function getAdminGroupe(): ?Membre
+    public function getAdminGroupe(): ?User
     {
         return $this->adminGroupe;
     }
 
-    public function setAdminGroupe(?Membre $adminGroupe): self
+    public function setAdminGroupe(?User $adminGroupe): self
     {
         $this->adminGroupe = $adminGroupe;
 
         return $this;
     }
-
-    public function getGroupeTrip(): ?Trip
+    /* public function getGroupeTrip(): ?Trip
     {
         return $this->groupeTrip;
     }
@@ -133,5 +132,5 @@ class Groupe
         }
 
         return $this;
-    }
+    } */
 }
