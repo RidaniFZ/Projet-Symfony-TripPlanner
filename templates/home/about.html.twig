@@ -1,5 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<style>
+.showcase{
+    
+    padding:100px;
+    padding-top:100px;
+    margin: auto;
+}
+.showcase-text{
+    background-color:#2b2b2b;
+    color: white;
+}
+</style>
 
+<section class="showcase">
+    <div class="container-fluid p-0">
+      <div class="row no-gutters">
+
+        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/img/AboutUs2.jpg');"></div>
+        <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+          <h2> About Us </h2>
+          <p class="lead mb-0">You can find all over Thailand is wonderfully scenic. Most prominent are hundreds of tropical beaches with modern facilities. Offshore of the Gulf of Thailand are the precious gems gifted by Mother Nature such as Koh Tao, Koh Phi Phi or Koh Samui.</p>
+        </div>
+      </div>
+        </div>
+    </div>
+  </section>
 {% endblock %}
