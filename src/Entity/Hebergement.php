@@ -24,7 +24,7 @@ class Hebergement
     private $Adress;
 
     /**
-     * @ORM\Column(type="decimal", precision=2, scale=2)
+     * @ORM\Column(type="decimal")
      */
     private $prixParNuit;
 
@@ -32,6 +32,11 @@ class Hebergement
      * @ORM\OneToMany(targetEntity="App\Entity\Trip", mappedBy="tripHebergement")
      */
     private $Trips;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
 
     public function __construct()
     {
@@ -94,6 +99,18 @@ class Hebergement
                 $trip->setTripHebergement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

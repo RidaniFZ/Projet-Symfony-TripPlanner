@@ -28,7 +28,7 @@ class GroupeController extends AbstractController
         }
 
         return $this->render('groupe/groupe_creation_form.html.twig',
-        ['groupeCreationFormulaire' => $formGroupeCreation->createView()]);
+        ['groupeCreationFormulaire' => $formGroupeCreation->createView(),'currentUser'=>$this->getUser()]);
     }
 
     /**
@@ -46,7 +46,8 @@ class GroupeController extends AbstractController
             $groupeMembers=$rep->findAll();
             //dd($groupeMembers);
             return $this->render('groupe/groupe_list.html.twig',['listGroupes'=> $groupes,
-                                                                 'listMembre'=>$groupeMembers]);
+                                                                 'listMembre'=>$groupeMembers,
+                                                                 'currentUser'=>$this->getUser()]);
 
    }
    /**
@@ -92,7 +93,7 @@ class GroupeController extends AbstractController
         }
         return $this->render(
             '/groupe/afficher_formulaire_edit_groupe.html.twig',
-            ['editGroupeFormulaire' => $formEditGroupe->createView()]
+            ['editGroupeFormulaire' => $formEditGroupe->createView(),'currentUser'=>$this->getUser()]
         );
     }
     /**

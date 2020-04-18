@@ -1,0 +1,15 @@
+
+
+{{ form_start(tripEditFormulaire ,{'action':path ('edit_trip'), {'id': tripId })} )}}
+ <h1> Create a Trip </h1>
+            
+	    {{ form_row(tripEditFormulaire.destination) }}
+        {{ form_row(hebergementEditFormulaire.adress) }}
+        {{ form_row(hebergementEditFormulaire.type) }}
+        {{ form_row(hebergementEditFormulaire.prixParNuit) }}
+
+        {{ form_row(tripEditFormulaire.description) }}
+        {{ form_row(tripEditFormulaire.image) }}
+		{{ form_row(tripEditFormulaire.dateDebut) }}
+		{{ form_row(tripEditFormulaire.dateFin) }}
+{{ form_end(tripEditFormulaire) }}

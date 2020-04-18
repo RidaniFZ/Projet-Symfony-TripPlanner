@@ -34,7 +34,7 @@ class Trip
     private $dateFin;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Groupe", inversedBy="groupeTrip", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\groupe", inversedBy="groupeTrip", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $tripGroupe;
@@ -55,6 +55,16 @@ class Trip
      * @ORM\JoinColumn(nullable=false)
      */
     private $TripAdmin;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=400)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -160,6 +170,30 @@ class Trip
     public function setTripAdmin(?User $TripAdmin): self
     {
         $this->TripAdmin = $TripAdmin;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

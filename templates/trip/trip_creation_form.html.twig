@@ -64,7 +64,7 @@ button.ghost {
 }
 
 .form-container {
-	background-color: #FFFFFF;
+	background-color: #bdc9bb;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -84,8 +84,8 @@ input {
 
 .containerGroupe {
     margin:auto;
-    padding-top:100px;
-	background-color: #fff;
+    padding-top:60px;
+	background-color: #bdc9bb;
 	border-radius: 10px;
   	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
@@ -93,24 +93,38 @@ input {
 	overflow: hidden;
 	width: 800px;
 	max-width: 100%;
-	min-height: 600px;
+	height: 1080px;
 }
- 
+
+
+  
 </style>      
 
 <div class="containerGroupe" id="containerGroupe">
 	<div class="form-container sign-up-container">
-		 {{ form_start(editGroupeFormulaire) }}
+		 {{ form_start(tripCreationFormulaire) }}
 		
-            <h1> Edit a Groupe </h1>
+            <h1> Create a Trip </h1>
             
-	    {{ form_row(editGroupeFormulaire.nom) }}
-        {{ form_row(editGroupeFormulaire.description) }}
-			
-			<button class="btn-groupe" type="submit"> Edit </button> 
-		{{ form_end(editGroupeFormulaire) }}
+	    {{ form_row(tripCreationFormulaire.destination) }}
+        {{ form_row(hebergementCreationFormulaire.adress) }}
+        {{ form_row(hebergementCreationFormulaire.type) }}
+        {{ form_row(hebergementCreationFormulaire.prixParNuit) }}
+
+        {{ form_row(tripCreationFormulaire.description) }}
+        {{ form_row(tripCreationFormulaire.image) }}
+		{{ form_row(tripCreationFormulaire.dateDebut) }}
+		{{ form_row(tripCreationFormulaire.dateFin) }}
+		<label> choose a groupe for your trip </label><br>
+        <select name="lesGroupes" required>
+                {% for key , listeGroupe in listeGroupe %}
+            <option value={{ listeGroupe.id }} > {{ listeGroupe.nom }} </option>
+                {% endfor %}
+        </select>
+		<br><br>
+		<button class="btn-groupe" type="submit"> Create </button> 
+		{{ form_end(tripCreationFormulaire) }}
 		
 	</div> 
 </div>
-
 {% endblock %}

@@ -39,10 +39,10 @@ class groupe
      */
     private $adminGroupe;
 
-    /* /**
+     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Trip", mappedBy="tripGroupe", cascade={"persist", "remove"})
      */
-    //private $groupeTrip; */
+    private $groupeTrip; 
 
     public function __construct()
     {
@@ -117,7 +117,7 @@ class groupe
 
         return $this;
     }
-    /* public function getGroupeTrip(): ?Trip
+    public function getGroupeTrip(): ?Trip
     {
         return $this->groupeTrip;
     }
@@ -132,5 +132,5 @@ class groupe
         }
 
         return $this;
-    } */
+    } 
 }
