@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Trip;
 use App\Entity\User;
+use App\Entity\groupe;
+use App\Entity\Hebergement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -78,29 +81,34 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/sign/in" , name="signIn")
+     * @Route("/search/trip" , name="search_trip")
      */
-   /*  public function signIn()
-    
-    {
-        $formSignIn = $this->createForm(
-            SignInType::class,
-            null,
-            [
-                'method'=>'POST',
-                'action'=>$this->generateUrl("signInTraitement")
-            ]
-            );
-        return $this->render('home/sign_in.html.twig',
-                   ['leFormulaire'=> $formSignIn->createView()]);
+     public function searchTrip(Request $req)
+    {  //dd($req->request->get('destination'));
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Trip::class);
+        $Trips=$rep->findBy(array('Destination'=> $req->request->get('destination')));
+        /* $rep = $em->getRepository(Hebergement::class);
+        $Hebergement = $rep->find($Trips->geTripHebergement()->getId()); */
+
+        return $this->render('home/search_trips.html.twig',['listTrips'=> $Trips]);
     }
 
-    /**
-     * @Route("/sign/in/traitement" , name="signInTraitement")
-    
-    public function SignInTraitement()
-    {
-         
-        return $this->render('home/sign_in_traitement.html.twig');
-    } */
+      /**
+     * @Route("/join/groupe/{id}" , name="join_groupe")
+     */
+    public function JoinGroupe(Request $req, $id)
+    {  
+        // ici je dois vérifier que l'utilisateur est logger.
+        //si l'utilisateur est logger
+        $entityManager = $this->getDoctrine()->getManager();
+        $rep = $entityManager->getRepository(groupe::class);
+        //dd($request->request->get('groupeId'));
+        //$request->request->get('lesMembres'));
+        $groupe=$rep->find($id);
+        $rep = $entityManager->getRepository(User::class);
+        $groupe->addUserGroupe($this->getUser());
+        $entityManager->flush();
+        return $this->redirectToRoute('joined_groupe');
+    }
 }

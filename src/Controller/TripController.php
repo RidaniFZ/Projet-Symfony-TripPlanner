@@ -92,24 +92,28 @@ class TripController extends AbstractController
       // $currentGroupeID = $request->request->get('editGroupeId');
         $tripUpdated=new Trip();
         $hebergementUpdated=new hebergement();
+
         $formEditTrip = $this->createForm( TripFormType::class, $tripUpdated);
+       
         $formEditHebergement = $this->createForm( HebergementFormType::class, $hebergementUpdated);
 
         $formEditTrip->handleRequest($request);
-        
+        $formEditHebergement->handleRequest($request);
+
         if ($formEditTrip->isSubmitted() && $formEditTrip->isValid())
         { 
-           
            $em = $this->getDoctrine()->getManager();
            $rep = $em->getRepository(Trip::class);
            $tripToUpdated=$rep->find($id);
 
            $rep = $em->getRepository(Hebergement::class);
            $hebergementToUpdated = $rep->find($tripToUpdated->getTripHebergement()->getId());
+           
+
            $hebergementToUpdated->setAdress($hebergementUpdated->getAdress());
            $hebergementToUpdated->setPrixParNuit($hebergementUpdated->getPrixParNuit());
            $hebergementToUpdated->setType($hebergementUpdated->getType());
-
+           
            $tripToUpdated->setDestination($tripUpdated->getDestination());
            $tripToUpdated->setDescription($tripUpdated->getDescription());
            $tripToUpdated->setDateDebut($tripUpdated->getDateDebut());
@@ -120,7 +124,7 @@ class TripController extends AbstractController
            $fichier->move("dossierFichiers", $nomFichierServeur);
 
            $tripToUpdated->setImage($nomFichierServeur);
-
+     
            $em->flush();
            return $this->redirectToRoute('trip_list');
         }
@@ -128,7 +132,7 @@ class TripController extends AbstractController
             '/trip/modal_formulaire_edit_trip.html.twig',
             ['tripEditFormulaire' => $formEditTrip->createView(),
             'hebergementEditFormulaire'=>$formEditHebergement->createView(),
-                                       'tripId'=>$id]
+            'currentUser'=>$this->getUser()]
         );
     }
 }

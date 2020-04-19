@@ -1,12 +1,14 @@
-{% extends 'baseMemberArea.html.twig' %}
-{% block NameAndPicture  %}
- <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{currentUser.prenom}}</span>
-                <img class="img-profile rounded-circle" src="{{ asset('/dossierFichiers/' ~ currentUser.image)}}">
-</a>
-{% endblock %}
+{% extends 'base.html.twig' %}
+{% block header %}{% endblock %}
+
+
 {% block body %}
+
+
 <style>
+.masthead{
+    background-image: url('assets/img/asiaBoat.jpg');
+}
 body {
   background:#dce1df;
   color: #4f585e;
@@ -117,8 +119,6 @@ div.card  img {
         letter-spacing: -0.025em;
       }
     
-  
-
   div.card-description {
     padding: 0 15px 10px;
     position: relative;
@@ -208,18 +208,21 @@ div.card.show  div.card-title a.toggle-info {
                             <img alt="Feefo logo" border="0" src="https://api.feefo.com/api/logo?merchantidentifier=explore&amp;template=Imported-Reviews-200x15.png&amp;vendorref=NAW&amp;since=all" title="Our customer Feefo rating">
                </a> </small>
       </h2>
+      <h5>{{ listTrips.tripHebergement.type }}</h5>
+      <h6> {{ listTrips.tripHebergement.adress }} </h6>
     </div>
     <div class="card-flap flap1">
       <div class="card-description">
        {{ listTrips.description }}
       </div>
-
+      
+      {# <h6><i class="fas fa-users"></i> {{ listTrips.tripGroupe.nom }}</h6> #}
       <div class="card-flap flap2">
               
         <div class="card-actions">
           {# <a href="#" class="btnCard" data-toggle="modal" data-target="#Modal{{ listTrips.id }}">Read more</a> #}
-          <a href="/edit/trip/{{ listTrips.id }}" id="btn-edit" class="btn">Edit</a> 
-          <a href="#" class="btn" data-toggle="modal" data-target="#Delete{{ listTrips.id }}">Delete</a>
+          <a href="" id="btn-edit" class="btn" data-toggle="modal" data-target="#join{{ listTrips.id }}"><i class="fas fa-users"></i> Join </a> 
+          <a href="#" class="btn" data-toggle="modal" data-target="#activities{{ listTrips.id }}">Activities</a>
         </div>
       </div>
     </div>
@@ -227,102 +230,30 @@ div.card.show  div.card-title a.toggle-info {
 
  {% endfor %}
 </div>
+
  <!-- Delete Modal-->
 {% for key , listTrips in listTrips %}
  
-  <div class="modal fade" id="Delete{{ listTrips.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="join{{ listTrips.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Delete Trip?</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Join Groupe Trip?</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Select "Ok" below if you are sure to delete Trip.</div>
+        <div class="modal-body">
+        <h3>Groupe : {{ listTrips.tripGroupe.nom }}</h3>
+        <p>{{ listTrips.tripGroupe.description }}</p>
+        Select "Ok" below if you are sure to Join Groupe Trip.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="/delete/trip/{{ listTrips.id }}">OK</a>
+          <a class="btn btn-primary" href="/join/groupe/{{ listTrips.tripGroupe.id }}">Join</a>
         </div>
       </div>
     </div>
   </div>
  {% endfor %} 
 
-<!-- Edit Modal-->
-
-
-  <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Trip</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="">OK</a> 
-        </div>
-      </div>
-    </div>
-  </div>
-
-
- <script
-  src="https://code.jquery.com/jquery-3.5.0.js"
-  integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
-  crossorigin="anonymous"></script>
-
-<script>
-{# $(document).ready(function(){
-  var zindex = 10;
-  
-  $("div.card").click(function(e){
-    e.preventDefault();
-
-    var isShowing = false;
-
-    if ($(this).hasClass("show")) {
-      isShowing = true
-    }
-
-    if ($("div.cards").hasClass("showing")) {
-      // a card is already in view
-      $("div.card.show")
-        .removeClass("show");
-
-      if (isShowing) {
-        // this card was showing - reset the grid
-        $("div.cards")
-          .removeClass("showing");
-      } else {
-        // this card isn't showing - get in with it
-        $(this)
-          .css({zIndex: zindex})
-          .addClass("show");
-
-      }
-
-      zindex++;
-
-    } else {
-      // no cards in view
-      $("div.cards")
-        .addClass("showing");
-      $(this)
-        .css({zIndex:zindex})
-        .addClass("show");
-
-      zindex++;
-    }
-    
-  });
-}); #}
-</script>
 {% endblock %}
-

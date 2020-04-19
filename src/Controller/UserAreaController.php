@@ -60,12 +60,6 @@ class UserAreaController extends AbstractController
             
            $em = $this->getDoctrine()->getManager();
            $rep = $em->getRepository(User::class);
-          // $userToUpdate= $rep->find($this->getUser()->getId());
-          /*  $userToUpdate->setPrenom($userUpdated->getPrenom());
-           $userToUpdate->setNom($userUpdated->getNom());
-           $userToUpdate->setPays($userUpdated->getPays());
-           $userToUpdate->setAdress($userUpdated->getAdress());
-           $userToUpdate->setEmail($userUpdated->getEmail()); */
            $userUpdated->setPassword(
             $passwordEncoder->encodePassword(
                 $userUpdated,
@@ -87,7 +81,22 @@ class UserAreaController extends AbstractController
         }
         return $this->render(
             '/user_area/afficher_formulaire_edit_profile.html.twig',
-            ['editProfileFormulaire' => $formEditProfile->createView()]
+            ['editProfileFormulaire' => $formEditProfile->createView(),
+            'monprofil'=>$this->getUser()]
         );
+    }
+
+    /**
+     * @Route("/search/contact" , name="search_contact")
+     */
+    public function searchContact(Request $req)
+    {  //dd($req->request->get('destination'));
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(User::class);
+        $contacts=$rep->findBy(array('Nom'=> $req->request->get('nom')));
+        /* $rep = $em->getRepository(Hebergement::class);
+        $Hebergement = $rep->find($Trips->geTripHebergement()->getId()); */
+
+        return $this->render('/user_area/search_contact.html.twig',['listContact'=> $contacts,'currentUser'=>$this->getUser()]);
     }
 }

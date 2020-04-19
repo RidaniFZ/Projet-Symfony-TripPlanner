@@ -108,4 +108,13 @@ class GroupeController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('groupe_list');
     }
+    /**
+     * @Route("joined/groupe}", name="joined_groupe")
+     */
+    public function joinedGroupe()
+    {
+      $groupes = $this->getUser()->getGroupesAppartenance();
+      return $this->render('/groupe/joined_groupe.html.twig',['listGroupes'=>$groupes, 'currentUser'=>$this->getUser()]);
+    }
+
 }

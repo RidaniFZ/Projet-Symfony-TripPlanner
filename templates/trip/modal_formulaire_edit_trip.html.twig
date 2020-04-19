@@ -1,6 +1,105 @@
+{% extends 'baseMemberArea.html.twig' %}
+{% block NameAndPicture  %}
+ <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{currentUser.prenom}}</span>
+                <img class="img-profile rounded-circle" src="{{ asset('/dossierFichiers/' ~ currentUser.image)}}">
+</a>
+{% endblock %}
+{% block body %}
 
+<style>
 
-{{ form_start(tripEditFormulaire ,{'action':path ('edit_trip'), {'id': tripId })} )}}
+h1 {
+	font-weight: bold;
+	margin: 0;
+}
+
+h2 {
+	text-align: center;
+}
+
+p {
+	font-size: 14px;
+	font-weight: 100;
+	line-height: 20px;
+	letter-spacing: 0.5px;
+	margin: 20px 0 30px;
+}
+
+span {
+	font-size: 12px;
+}
+
+a {
+	color: #333;
+	font-size: 14px;
+	text-decoration: none;
+	margin: 15px 0;
+}
+
+.btn-groupe {
+	border-radius: 20px;
+	border: 1px solid #41a3ff;
+	background-color: #41a3ff;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+button:active {
+	transform: scale(0.95);
+}
+
+button:focus {
+	outline: none;
+}
+
+button.ghost {
+	background-color: transparent;
+	border-color: #FFFFFF;
+}
+
+.form-container {
+	background-color: #FFFFFF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	text-align: center;
+}
+
+input {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.containerGroupe {
+    margin:auto;
+    padding-top:100px;
+	background-color: #fff;
+	border-radius: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+	position: relative;
+	overflow: hidden;
+	width: 800px;
+	max-width: 100%;
+	min-height: 600px;
+}
+ 
+</style>      
+<div class="containerGroupe" id="containerGroupe">
+	<div class="form-container sign-up-container">
+{{ form_start(tripEditFormulaire) }}
  <h1> Create a Trip </h1>
             
 	    {{ form_row(tripEditFormulaire.destination) }}
@@ -12,4 +111,9 @@
         {{ form_row(tripEditFormulaire.image) }}
 		{{ form_row(tripEditFormulaire.dateDebut) }}
 		{{ form_row(tripEditFormulaire.dateFin) }}
+        <button class="btn-groupe" type="submit"> Edit </button> 
 {{ form_end(tripEditFormulaire) }}
+	</div> 
+</div>
+
+{% endblock %}

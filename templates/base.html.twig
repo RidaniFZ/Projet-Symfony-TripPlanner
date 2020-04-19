@@ -39,7 +39,8 @@
   </nav>
 
   <!-- Masthead -->
-  <header class="masthead text-white text-center"  style="background-image: url('assets/img/asiaBoat.jpg');">
+  {% block header %}
+  <header class="masthead text-white text-center" style="background-image: url('assets/img/asiaBoat.jpg');">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
@@ -47,10 +48,10 @@
           <h1 class="mb-5"> Explore The World in Groupe !</h1>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <form>
+          <form action="{{ path ('search_trip') }}" method="Post">
             <div class="form-row">
               <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input type="text" class="form-control form-control-lg" placeholder="Choose where you'd like to go!...">
+                <input type="text" name="destination" class="form-control form-control-lg" placeholder="Choose where you'd like to go!...">
               </div>
               <div class="col-12 col-md-3">
                 <button type="submit" class="btn btn-block btn-lg btn-primary"> Search </i></button>
@@ -61,7 +62,7 @@
       </div>
     </div>
   </header>
-
+{% endblock %}
         {% block body %}{% endblock %}
   
   <!-- Footer -->
