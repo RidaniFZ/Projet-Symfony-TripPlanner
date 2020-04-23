@@ -77,6 +77,11 @@ class User implements UserInterface
      */
     private $UserTrips;
 
+    /**
+     * @ORM\Column(type="string", length=400)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->groupesAppartenance = new ArrayCollection();
@@ -306,6 +311,18 @@ class User implements UserInterface
                 $userTrip->setTripAdmin(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

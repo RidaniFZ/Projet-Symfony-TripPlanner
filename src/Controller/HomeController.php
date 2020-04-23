@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\Trip;
 use App\Entity\User;
 use App\Entity\groupe;
+use App\Entity\Activit;
+use App\Form\ContactType;
 use App\Entity\Hebergement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -28,14 +31,41 @@ class HomeController extends AbstractController
         return $this->render('home/about.html.twig');
     }
 
-    /**
+   /**
      * @Route("/contact", name="contact")
      */
     public function contact()
     {
         return $this->render('home/contact.html.twig');
-    }
+    } 
 
+   /**
+     * @Route("/contact/traitement", name="contact_traitement")
+     */
+    public function contactTraitement(Request $req, \Swift_Mailer $mailer)
+    {
+       
+           $Contact =['Firstname'=>$req->request->get('Firstname'),
+                    'Lastname'=>$req->request->get('Lastname'),
+                    'email'=> $req->request->get('email') , 
+                    'subject'=>$req->request->get('subject'), 
+                    'message'=>$req->request->get('message') ];
+         //dd($Contact);
+           $message = (new \Swift_Message('Neauvau Contact'))
+          ->setFrom($req->request->get("email"))
+          ->setTo('ridani.fz@gmail.com')
+          ->setBody(
+            $this->renderView(
+                'email/email_contact.html.twig',
+                ['Contact' => $Contact]
+            ),
+            'text/html'
+          
+          ); 
+          $mailer->send($message);
+        $this->addFlash('message','Thank You! Message Sent with Success');
+        return $this->redirectToRoute('index');
+    }
     /**
      * @Route("/term/Of/Use", name="termOfUse")
      */
@@ -94,7 +124,7 @@ class HomeController extends AbstractController
         return $this->render('home/search_trips.html.twig',['listTrips'=> $Trips]);
     }
 
-      /**
+    /**
      * @Route("/join/groupe/{id}" , name="join_groupe")
      */
     public function JoinGroupe(Request $req, $id)
@@ -110,5 +140,18 @@ class HomeController extends AbstractController
         $groupe->addUserGroupe($this->getUser());
         $entityManager->flush();
         return $this->redirectToRoute('joined_groupe');
+    }
+    /**
+     * @Route("/get/Activities/{id}" , name="get_activities")
+     */
+    public function getActivities(Request $req, $id)
+    {  
+        $entityManager = $this->getDoctrine()->getManager();
+        $rep = $entityManager->getRepository(Trip::class);
+        $Trip=$rep->find($id);
+       // $rep = $entityManager->getRepository(Activit::class);
+        $Activities = $rep->findBy(array('TripActivities'=>$Trip->getTripActivities()));
+        dd($Activities);
+        return new JsonResponse($Activities);
     }
 }

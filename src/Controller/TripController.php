@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Activit;
 use App\Entity\Trip;
 use App\Entity\groupe;
+use App\Form\ActivityType;
 use App\Entity\Hebergement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -134,5 +136,52 @@ class TripController extends AbstractController
             'hebergementEditFormulaire'=>$formEditHebergement->createView(),
             'currentUser'=>$this->getUser()]
         );
+    }
+    /**
+     * @Route("add/activity/{id}", name="add_activity")
+     */
+    public function addActivity(Request $request, $id)
+    {
+        $activity = new Activit();
+       
+        $formActivityCreation = $this->createForm(ActivityType::class, $activity);
+        $formActivityCreation->handleRequest($request);
+
+        if ($formActivityCreation->isSubmitted() && $formActivityCreation->isValid()) {
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $rep = $entityManager->getRepository(Trip::class);
+            $trip= $rep->find($id);
+            $activity->addTrip($trip);
+            $entityManager->persist( $activity);
+            $entityManager->flush();
+            $this->addFlash('message','Activity added successfully');
+            return $this->redirectToRoute('trip_list');
+        }
+
+        return $this->render('trip/activity_creation_form.html.twig',
+        ['activityCreationFormulaire' => $formActivityCreation->createView(),'currentUser'=>$this->getUser()]);
+        
+    }
+
+    /**
+     * @Route("/activities/list", name="activities_list")
+     */
+    public function ActivitiesList()
+    {   
+        $entityManager = $this->getDoctrine()->getManager();    
+        $rep = $entityManager->getRepository(Trip::class);
+        $Trips = $rep->findBy(array('TripAdmin'=>$this->getuser()->getId())); /*($this->getuser()->getId());*/
+        //$rep = $entityManager->getRepository(Activit::class);
+       
+        $i = 1;
+        foreach($Trips as $Trip)
+         { dd($Trip->getTripActivities());
+            $Activities[$i] = $rep->findBy(array('TripActivities'=>$Trip->getTripActivities()));
+            dd($Activities[$i]);
+            $i++;
+         }
+        dd($Activities);
+        return $this->render('trip/trip_list.html.twig',['listTrips'=> $Trips,  'currentUser'=>$this->getUser()]);
     }
 }

@@ -51,22 +51,25 @@ div.card {
   background: #ffffff;
   display: inline-block;
   margin: 8px;
-  max-width: 300px;
+  max-width: 400px;
   perspective: 1000;
   position: relative;
   text-align: left;
   transition: all 0.3s 0s ease-in;
-  width: 300px;
+  width: 400px;
   z-index: 1;
 }
-div.card  img {
-    max-width: 300px;
+div.card .card__image-holder img {
+    width: 390px;
+    height: 290px;
+    margin: auto;
   }
   
  div.card .card__image-holder {
     background: rgba(0,0,0,0.1);
     height: 0;
     padding-bottom: 75%;
+ 
   }
 
   div.card-title {
@@ -195,7 +198,7 @@ div.card.show  div.card-title a.toggle-info {
  {% for key , listTrips in listTrips %}
   <div class="card">
     <div class="card__image-holder">
-      <img class="card__image" src="{{ asset('/dossierFichiers/' ~ listTrips.image)}}" alt="{{ listTrips.destination }}" style="width:300px; hight:300px;" />
+      <img class="card__image" src="{{ asset('/dossierFichiers/' ~ listTrips.image)}}" alt="{{ listTrips.destination }}" />
     </div>
     <div class="card-title">
       <a href="#" class="toggle-info btn">
@@ -220,6 +223,7 @@ div.card.show  div.card-title a.toggle-info {
           {# <a href="#" class="btnCard" data-toggle="modal" data-target="#Modal{{ listTrips.id }}">Read more</a> #}
           <a href="/edit/trip/{{ listTrips.id }}" id="btn-edit" class="btn">Edit</a> 
           <a href="#" class="btn" data-toggle="modal" data-target="#Delete{{ listTrips.id }}">Delete</a>
+          <a href="/add/activity/{{ listTrips.id }}" class="btn">Add Activity</a> 
         </div>
       </div>
     </div>

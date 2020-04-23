@@ -103,13 +103,13 @@ class GroupeController extends AbstractController
     {  
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(groupe::class);
-        $groupeToUpdated=$rep->find($id);
-        $em->remove($groupeToUpdated);
+        $groupeToDelete=$rep->find($id);
+        $em->remove($groupeToDelete);
         $em->flush();
         return $this->redirectToRoute('groupe_list');
     }
     /**
-     * @Route("joined/groupe}", name="joined_groupe")
+     * @Route("joined/groupe", name="joined_groupe")
      */
     public function joinedGroupe()
     {
@@ -117,4 +117,16 @@ class GroupeController extends AbstractController
       return $this->render('/groupe/joined_groupe.html.twig',['listGroupes'=>$groupes, 'currentUser'=>$this->getUser()]);
     }
 
+    /**
+     * @Route("unjoined/groupe/{id}", name="unjoined_groupe")
+     */
+    public function unjoinedGroupe($id)
+    {   
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(groupe::class);
+        $groupeToUnjoined=$rep->find($id);
+        $this->getUser()->removeGroupesAppartenance($groupeToUnjoined);
+        $em->flush();
+        return $this->redirectToRoute('joined_groupe');
+    }
 }

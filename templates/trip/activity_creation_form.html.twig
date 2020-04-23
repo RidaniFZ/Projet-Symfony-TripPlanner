@@ -1,23 +1,13 @@
 {% extends 'baseMemberArea.html.twig' %}
-
 {% block NameAndPicture  %}
  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{monprofil.prenom}}</span>
-                <img class="img-profile rounded-circle" src="{{ asset('/dossierFichiers/' ~ monprofil.image)}}">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{currentUser.prenom}}</span>
+                <img class="img-profile rounded-circle" src="{{ asset('/dossierFichiers/' ~ currentUser.image)}}">
 </a>
 {% endblock %}
-
 {% block body %}
 
 <style>
-
-/* @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');*/
-
-* {
-	box-sizing: border-box;
-}
-
-
 
 h1 {
 	font-weight: bold;
@@ -47,7 +37,7 @@ a {
 	margin: 15px 0;
 }
 
-button {
+.btn-groupe {
 	border-radius: 20px;
 	border: 1px solid #41a3ff;
 	background-color: #41a3ff;
@@ -73,8 +63,8 @@ button.ghost {
 	border-color: #FFFFFF;
 }
 
-form {
-	background-color: #FFFFFF;
+.form-container {
+	background-color: #fff;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -92,8 +82,9 @@ input {
 	width: 100%;
 }
 
-.container-profile {
-    margin: auto;
+.containerGroupe {
+    margin:auto;
+    padding-top:60px;
 	background-color: #fff;
 	border-radius: 10px;
   	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
@@ -102,36 +93,27 @@ input {
 	overflow: hidden;
 	width: 800px;
 	max-width: 100%;
-	min-height: 800px;
+	height: 800px;
 }
 
 
   
 </style>      
 
-       
-    
-
-<div class="container-profile" id="container-profile">
+<div class="containerGroupe" id="containerGroupe">
 	<div class="form-container sign-up-container">
-		 {{ form_start(editProfileFormulaire) }}
+		 {{ form_start(activityCreationFormulaire) }}
 		
-            <h1> Update Account </h1>
+            <h1> Create an Activity </h1>
             
-	    {{ form_row(editProfileFormulaire.nom) }}
-        {{ form_row(editProfileFormulaire.prenom) }}
-        {{ form_row(editProfileFormulaire.adress) }}
-        {{ form_row(editProfileFormulaire.pays) }}
-		{{ form_row(editProfileFormulaire.description) }}
-        {{ form_row(editProfileFormulaire.image) }}
-        {{ form_row(editProfileFormulaire.email) }}
-        {{ form_row(editProfileFormulaire.password) }}
-      
-			
-			<button type="submit"> Edit </button> 
-		{{ form_end(editProfileFormulaire) }}
+	    {{ form_row(activityCreationFormulaire.Nom) }}
+        {{ form_row(activityCreationFormulaire.Type) }}
+        {{ form_row(activityCreationFormulaire.Description) }}
+		{{ form_row(activityCreationFormulaire.Prix) }}
+		
+		<button class="btn-groupe" type="submit"> Create </button> 
+		{{ form_end(activityCreationFormulaire) }}
 		
 	</div> 
 </div>
-
 {% endblock %}

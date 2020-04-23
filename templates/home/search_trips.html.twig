@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+
 {% block header %}{% endblock %}
 
 
@@ -189,6 +190,23 @@ div.card.show  div.card-title a.toggle-info {
     transition: all 0.3s 0.2s ease-out;
   }
 
+.map-container-9,
+.map-container-10,
+.map-container-11 {
+overflow:hidden;
+padding-bottom:56.25%;
+position:relative;
+height:0;
+}
+.map-container-9 iframe,
+.map-container-10 iframe,
+.map-container-11 iframe{
+left:0;
+top:0;
+height:100%;
+width:100%;
+position:absolute;
+}
 </style>
 
 <div class="cards">
@@ -208,8 +226,10 @@ div.card.show  div.card-title a.toggle-info {
                             <img alt="Feefo logo" border="0" src="https://api.feefo.com/api/logo?merchantidentifier=explore&amp;template=Imported-Reviews-200x15.png&amp;vendorref=NAW&amp;since=all" title="Our customer Feefo rating">
                </a> </small>
       </h2>
-      <h5>{{ listTrips.tripHebergement.type }}</h5>
-      <h6> {{ listTrips.tripHebergement.adress }} </h6>
+      <h5 id ="heberge{{ listTrips.id }}">{{ listTrips.tripHebergement.type }}</h5>
+      <div><i id="marker{{ listTrips.id }}" class="fas fa-map-marker-alt fa-2x" style="color:red; display: inline-block;" data-toggle="modal" data-target="#Map{{ listTrips.id }}"></i><h6 id="adress{{ listTrips.id }}" style="display: inline-block;">  {{ listTrips.tripHebergement.adress }} </h6></div>
+      <h6> Departure Date: {{ listTrips.dateDebut|date("m/d/Y") }}</h6>
+      <h6> Return Date: {{ listTrips.dateFin|date("m/d/Y") }}</h6>
     </div>
     <div class="card-flap flap1">
       <div class="card-description">
@@ -246,7 +266,7 @@ div.card.show  div.card-title a.toggle-info {
         <div class="modal-body">
         <h3>Groupe : {{ listTrips.tripGroupe.nom }}</h3>
         <p>{{ listTrips.tripGroupe.description }}</p>
-        Select "Ok" below if you are sure to Join Groupe Trip.</div>
+        Select "Join" below if you are sure to Join Groupe Trip.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <a class="btn btn-primary" href="/join/groupe/{{ listTrips.tripGroupe.id }}">Join</a>
@@ -254,6 +274,84 @@ div.card.show  div.card-title a.toggle-info {
       </div>
     </div>
   </div>
+ {% endfor %} 
+
+{% for key , listTrips in listTrips %}
+<!-- Modal: Leaflet Map -->
+<div class="modal fade" id="Map{{ listTrips.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+
+    <!--Content-->
+    <div class="modal-content">
+
+      <!--Body-->
+      <div class="modal-body mb-0 p-0">
+
+        <!--Google map-->
+        <div id="map{{ listTrips.id }}"  style="height: 600px">
+          
+        </div>
+
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+
+        <button type="button" class="btn btn-info btn-md">Get location <i class="fas fa-map-marker-alt ml-1"></i></button>
+        <button type="button" class="btn btn-outline-info btn-md" data-dismiss="modal">Close <i class="fas fa-times ml-1"></i></button>
+
+      </div>
+
+    </div>
+    <!--/.Content-->
+
+  </div>
+</div>
+
+
+
+
+ <script>
+
+var mymap = L.map('map'+{{ listTrips.id }}).setView([50.8466,4.3528], 12);
+
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: ' <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(mymap); 
+ {# var marker = L.marker([50.9005193, 4.3190698]).addTo(mymap); 
+marker.bindPopup("<br> Interface3 <a href ='https://www.interface3.be/'>www.interface3.be</a>").openPopup(); #}
+var elm  = document.getElementById('marker'+{{ listTrips.id }});
+
+console.log(elm);
+ elm.addEventListener("click", (event) => {
+  console.log(event.target.id);
+        $.ajax({
+            url: "https://nominatim.openstreetmap.org/search", // URL de Nominatim
+            type: 'get', // Requête de type GET
+            data: "q= "+ document.getElementById('adress'+{{ listTrips.id }}).innerText +"&format=json&addressdetails=1&limit=1&polygon_svg=1" // Données envoyées (q -> adresse complète, format -> format attendu pour la réponse, limit -> nombre de réponses attendu, polygon_svg -> fournit les données de polygone de la réponse en svg)
+        //console.log({{ listTrips.tripHebergement.adress }});
+        }).done(function (response) {
+            if(response !== ""){
+                userlat = response[0]['lat'];
+                userlon = response[0]['lon'];
+                console.log(userlon);
+                console.log(userlat);
+                var marker = L.marker([userlat,userlon]).addTo(mymap);
+                marker.bindPopup("<b>"+ document.getElementById('heberge'+{{ listTrips.id }}).innerText +"</b><br>"+ document.getElementById('adress'+{{ listTrips.id }}).innerText +"<br> ").openPopup();
+               
+        }                
+       }).fail(function (error) {
+            alert(error); 
+        });      
+ 
+});
+
+
+ </script>
+
  {% endfor %} 
 
 {% endblock %}

@@ -26,10 +26,24 @@
         <!-- Custom styles for this template -->
           <link rel="stylesheet" href="{{ asset ('assets/css/landing-page.min.css') }}"> 
           <!-- <link href="css/landing-page.min.css" rel="stylesheet"> -->
-
+       
+          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+           crossorigin=""/>
+           <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+           integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
+           <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
        
     </head>
     <body>
+    
+ {% for message in app.flashes('message')  %}
+  <div class ="alert alert-success" role="alert">
+ {{ message }}
+ </div>
+{% endfor %}
+
        <!-- Navigation -->
   <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
@@ -72,19 +86,19 @@
         <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
           <ul class="list-inline mb-2">
             <li class="list-inline-item">
-              <a href="#">About</a>
+              <a href="/about">About</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Contact</a>
+              <a href="/contact">Contact</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Terms of Use</a>
+              <a href="{{ path ('termOfUse') }}">Terms of Use</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Privacy Policy</a>
+              <a href="{{ path ('termOfUse') }}">Privacy Policy</a>
             </li>
           </ul>
           <p class="text-muted small mb-4 mb-lg-0">&copy; Trip Planner 2020. All Rights Reserved.</p>
@@ -117,6 +131,5 @@
       <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
         <script src="{{ asset ('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
       <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-
     </body>
 </html>

@@ -23,11 +23,8 @@ class UserAreaController extends AbstractController
         $rep = $em->getRepository(User::class);
 
         $currentUser = $this->getUser();
-        //dump($currentUser->getId());
-        //die();
+
         $monprofil = $rep->find($currentUser->getId());
-   /*      dump($monprofil);
-        die(); */
 
         $vars = ['monprofil' => $monprofil];
         return $this->render('user_area/index.html.twig', $vars);
@@ -40,8 +37,7 @@ class UserAreaController extends AbstractController
     public function editProfile(Request $req, UserPasswordEncoderInterface $passwordEncoder)
     {   $userUpdated = $this->getUser();
         $userUpdated->setImage(null);
-        //dd($userUpdated);
-       // $currentUser = $this->getUser();
+
         // créer le formulaire        
         $formEditProfile = $this->createForm(
             UserFormType::class,
@@ -54,7 +50,6 @@ class UserAreaController extends AbstractController
         );
        
         $formEditProfile->handleRequest($req);
-         //dd($formEditProfile->getData());
          if ($formEditProfile->isSubmitted() && $formEditProfile->isValid())
         { 
             
@@ -73,7 +68,6 @@ class UserAreaController extends AbstractController
             $fichier->move("dossierFichiers", $nomFichierServeur);
   
             $userUpdated->setImage($nomFichierServeur);
-       // dd($userUpdated);
            $em->flush();
            
            $vars = ['monprofil' => $userUpdated];
@@ -90,13 +84,14 @@ class UserAreaController extends AbstractController
      * @Route("/search/contact" , name="search_contact")
      */
     public function searchContact(Request $req)
-    {  //dd($req->request->get('destination'));
+    {  
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(User::class);
         $contacts=$rep->findBy(array('Nom'=> $req->request->get('nom')));
-        /* $rep = $em->getRepository(Hebergement::class);
-        $Hebergement = $rep->find($Trips->geTripHebergement()->getId()); */
-
+        if($contacts==null)
+        {
+            $this->addFlash('message','Contact Not found !' );
+        }
         return $this->render('/user_area/search_contact.html.twig',['listContact'=> $contacts,'currentUser'=>$this->getUser()]);
     }
 }

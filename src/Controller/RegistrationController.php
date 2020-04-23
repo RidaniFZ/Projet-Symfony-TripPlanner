@@ -43,7 +43,6 @@ class RegistrationController extends AbstractController
             // affecter le nom du fichier de l'entité. Ça sera le nom qu'on
             // aura dans la BD (un string, pas un objet UploadedFile cette fois)
             $user->setImage($nomFichierServeur);
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
