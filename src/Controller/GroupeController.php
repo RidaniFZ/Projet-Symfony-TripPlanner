@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\groupe;
+use App\Entity\Groupe;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +15,7 @@ class GroupeController extends AbstractController
      */
     public function groupeCreation(Request $request)
     {
-        $myGroupe = new groupe();
+        $myGroupe = new Groupe();
         $myGroupe->setAdminGroupe($this->getUser());
         $formGroupeCreation = $this->createForm(GroupeFormType::class, $myGroupe);
         $formGroupeCreation->handleRequest($request);
@@ -38,7 +38,7 @@ class GroupeController extends AbstractController
     {
     
             $entityManager = $this->getDoctrine()->getManager();
-            $rep = $entityManager->getRepository(groupe::class);
+            $rep = $entityManager->getRepository(Groupe::class);
             //dd($this->getuser()->getId());
             $groupes = $rep->findBy(array('adminGroupe'=>$this->getuser()->getId())); /*($this->getuser()->getId());*/
             //dd($groupes);
@@ -56,7 +56,7 @@ class GroupeController extends AbstractController
     public function addGroupeMember(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $rep = $entityManager->getRepository(groupe::class);
+        $rep = $entityManager->getRepository(Groupe::class);
         //dd($request->request->get('groupeId'));
         //$request->request->get('lesMembres'));
         $groupe=$rep->find($request->request->get('groupeId'));
@@ -72,7 +72,7 @@ class GroupeController extends AbstractController
     public function editGroupe(Request $request, $id)
     {  
       // $currentGroupeID = $request->request->get('editGroupeId');
-        $groupeUpdated=new groupe();
+        $groupeUpdated=new Groupe();
         
         $formEditGroupe = $this->createForm( GroupeFormType::class, $groupeUpdated);
         
@@ -82,7 +82,7 @@ class GroupeController extends AbstractController
         { 
            
            $em = $this->getDoctrine()->getManager();
-           $rep = $em->getRepository(groupe::class);
+           $rep = $em->getRepository(Groupe::class);
            $groupeToUpdated=$rep->find($id);
 
            $groupeToUpdated->setNom($groupeUpdated->getNom());
@@ -102,7 +102,7 @@ class GroupeController extends AbstractController
     public function deleteGroupe($id)
     {  
         $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository(groupe::class);
+        $rep = $em->getRepository(Groupe::class);
         $groupeToDelete=$rep->find($id);
         $em->remove($groupeToDelete);
         $em->flush();
@@ -123,7 +123,7 @@ class GroupeController extends AbstractController
     public function unjoinedGroupe($id)
     {   
         $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository(groupe::class);
+        $rep = $em->getRepository(Groupe::class);
         $groupeToUnjoined=$rep->find($id);
         $this->getUser()->removeGroupesAppartenance($groupeToUnjoined);
         $em->flush();

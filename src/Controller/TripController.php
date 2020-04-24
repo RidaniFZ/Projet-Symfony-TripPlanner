@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Activit;
 use App\Entity\Trip;
-use App\Entity\groupe;
+use App\Entity\Groupe;
 use App\Form\ActivityType;
 use App\Entity\Hebergement;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,7 @@ class TripController extends AbstractController
 
         // ici je récupére les groupe crée par le user courant (l'admin de trip qui est l'admin de groupe aussi)
         $entityManager = $this->getDoctrine()->getManager();
-        $rep = $entityManager->getRepository(groupe::class);
+        $rep = $entityManager->getRepository(Groupe::class);
         $groupes=$rep->findBy(array('adminGroupe'=> $this->getUser()));
        // au moment de la creation de trip je dois crée l'hebergement liée avec. donc dans cette action j'utilise deux forms
        // fromTripcreation et HebergementTripCreation, et je renvoie les deux fomr à la vue.

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Trip;
 use App\Entity\User;
-use App\Entity\groupe;
+use App\Entity\Groupe;
 use App\Entity\Activit;
 use App\Form\ContactType;
 use App\Entity\Hebergement;
@@ -86,6 +86,7 @@ class HomeController extends AbstractController
        $user->setPays($req->request->get('pays'));
        $user->setAdress($req->request->get('adress'));
        $user->setEmail($req->request->get('email'));
+       $user->setDescription($req->request->get('description'));
        // j'encode le password manuellement avant le stocker dans la base de donnée.
        $encodedPassword = $encoder->encodePassword($user, $req->request->get('password'));
        $user->setPassword($encodedPassword);
@@ -106,8 +107,8 @@ class HomeController extends AbstractController
 
        $em->persist($user);
        $em->flush(); 
-      
-      return $this->render('home/sign_up.html.twig');
+       $this->addFlash('message','Thank You! Registretion Done with Success, Please Log In To Member Area');
+      return $this->redirectToRoute('app_login');
     }
 
     /**
@@ -132,7 +133,7 @@ class HomeController extends AbstractController
         // ici je dois vérifier que l'utilisateur est logger.
         //si l'utilisateur est logger
         $entityManager = $this->getDoctrine()->getManager();
-        $rep = $entityManager->getRepository(groupe::class);
+        $rep = $entityManager->getRepository(Groupe::class);
         //dd($request->request->get('groupeId'));
         //$request->request->get('lesMembres'));
         $groupe=$rep->find($id);

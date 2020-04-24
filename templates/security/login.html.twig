@@ -102,7 +102,7 @@ input {
 	overflow: hidden;
 	width: 800px;
 	max-width: 100%;
-	min-height: 600px;
+	min-height: 700px;
 }
 
 .form-container {
@@ -233,7 +233,11 @@ input {
 </style>
 
 {% block body %}
-
+{% for message in app.flashes('message')  %}
+  <div class ="alert alert-success" role="alert">
+ {{ message }}
+ </div>
+{% endfor %}
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
 		<form enctype="multipart/form-data" action="{{ path ('signUp') }}" method="POST">
@@ -250,6 +254,7 @@ input {
 			<input type="text" name ="prenom" placeholder="Last Name" required/>
 			<input type="text" name ="pays" placeholder="Country"/ required>
             <input type="text" name ="adress" placeholder="Adress" required/>
+			<input type="text" name ="description" placeholder="Description" required/>
             <input type="file"  name="image" accept="image/*">
 			<input type="email" name ="email" placeholder="Email" required/>
 			<input type="password" name ="password"  placeholder="Password" required/>

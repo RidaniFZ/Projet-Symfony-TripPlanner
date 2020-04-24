@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\groupeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\GroupeRepository")
  */
-class groupe
+class Groupe
 {
     /**
      * @ORM\Id()

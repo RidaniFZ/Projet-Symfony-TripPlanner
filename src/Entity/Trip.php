@@ -34,7 +34,7 @@ class Trip
     private $dateFin;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\groupe", inversedBy="groupeTrip", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Groupe", inversedBy="groupeTrip", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $tripGroupe;

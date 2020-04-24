@@ -48,6 +48,7 @@ class RegistrationFormType extends AbstractType
             ->add('prenom',TextType::class)
             ->add('adress',TextType::class)
             ->add('pays',TextType::class)
+            ->add('description',TextType::class)
             ->add('image', FileType::class , array ('label'=>"Sélectionnez une photo de profile."))
         ;
     }

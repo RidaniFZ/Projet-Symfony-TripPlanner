@@ -63,12 +63,12 @@ class User implements UserInterface
     private $Image;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\groupe", inversedBy="userGroupe")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Groupe", inversedBy="userGroupe")
      */
     private $groupesAppartenance;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\groupe", mappedBy="AdminGroupe")
+     * @ORM\OneToMany(targetEntity="App\Entity\Groupe", mappedBy="AdminGroupe")
      */
     private $groupesGerer;
 
@@ -228,14 +228,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|groupe[]
+     * @return Collection|Groupe[]
      */
     public function getGroupesAppartenance(): Collection
     {
         return $this->groupesAppartenance;
     }
 
-    public function addGroupesAppartenance(groupe $groupesAppartenance): self
+    public function addGroupesAppartenance(Groupe $groupesAppartenance): self
     {
         if (!$this->groupesAppartenance->contains($groupesAppartenance)) {
             $this->groupesAppartenance[] = $groupesAppartenance;
@@ -244,7 +244,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeGroupesAppartenance(groupe $groupesAppartenance): self
+    public function removeGroupesAppartenance(Groupe $groupesAppartenance): self
     {
         if ($this->groupesAppartenance->contains($groupesAppartenance)) {
             $this->groupesAppartenance->removeElement($groupesAppartenance);
@@ -254,14 +254,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|groupe[]
+     * @return Collection|Groupe[]
      */
     public function getGroupesGerer(): Collection
     {
         return $this->groupesGerer;
     }
 
-    public function addGroupesGerer(groupe $groupesGerer): self
+    public function addGroupesGerer(Groupe $groupesGerer): self
     {
         if (!$this->groupesGerer->contains($groupesGerer)) {
             $this->groupesGerer[] = $groupesGerer;
@@ -271,7 +271,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeGroupesGerer(groupe $groupesGerer): self
+    public function removeGroupesGerer(Groupe $groupesGerer): self
     {
         if ($this->groupesGerer->contains($groupesGerer)) {
             $this->groupesGerer->removeElement($groupesGerer);
